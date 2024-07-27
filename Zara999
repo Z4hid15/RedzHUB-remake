@@ -13,8 +13,8 @@ screenGui.Parent = playerGui
 
 -- Main frame
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 400, 0, 600)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -300)
+mainFrame.Size = UDim2.new(0, 320, 0, 480)
+mainFrame.Position = UDim2.new(0.5, -160, 0.5, -240)
 mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 mainFrame.Parent = screenGui
 
@@ -124,10 +124,10 @@ minimizeButton.MouseButton1Click:Connect(function()
 end)
 
 maximizeButton.MouseButton1Click:Connect(function()
-    if mainFrame.Size == UDim2.new(0, 400, 0, 600) then
-        mainFrame.Size = UDim2.new(0, 800, 0, 600)
+    if mainFrame.Size == UDim2.new(0, 320, 0, 480) then
+        mainFrame.Size = UDim2.new(0, 640, 0, 960)
     else
-        mainFrame.Size = UDim2.new(0, 400, 0, 600)
+        mainFrame.Size = UDim2.new(0, 320, 0, 480)
     end
 end)
 
