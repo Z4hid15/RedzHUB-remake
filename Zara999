@@ -1,0 +1,168 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local localPlayer = Players.LocalPlayer
+local playerGui = localPlayer:WaitForChild("PlayerGui")
+
+-- Create the ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CustomUI"
+screenGui.Parent = playerGui
+
+-- Main frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 400, 0, 600)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -300)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mainFrame.Parent = screenGui
+
+-- Title Bar
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 40)
+titleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+titleBar.Parent = mainFrame
+
+-- Title Text
+local titleText = Instance.new("TextLabel")
+titleText.Size = UDim2.new(1, 0, 1, 0)
+titleText.BackgroundTransparency = 1
+titleText.Text = "Zara"
+titleText.Font = Enum.Font.BurbankBigCondensedBlack
+titleText.TextSize = 24
+titleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleText.Parent = titleBar
+
+-- Subtitle Text
+local subtitleText = Instance.new("TextLabel")
+subtitleText.Size = UDim2.new(1, 0, 0, 20)
+subtitleText.Position = UDim2.new(0, 0, 1, 0)
+subtitleText.BackgroundTransparency = 1
+subtitleText.Text = "providing the best services"
+subtitleText.Font = Enum.Font.SourceSans
+subtitleText.TextSize = 14
+subtitleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+subtitleText.Parent = titleBar
+
+-- Close, Minimize, Maximize buttons
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Position = UDim2.new(1, -60, 0, 10)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.Text = ""
+closeButton.Parent = titleBar
+
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0, 20, 0, 20)
+minimizeButton.Position = UDim2.new(1, -40, 0, 10)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+minimizeButton.Text = ""
+minimizeButton.Parent = titleBar
+
+local maximizeButton = Instance.new("TextButton")
+maximizeButton.Size = UDim2.new(0, 20, 0, 20)
+maximizeButton.Position = UDim2.new(1, -20, 0, 10)
+maximizeButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+maximizeButton.Text = ""
+maximizeButton.Parent = titleBar
+
+-- User Profile
+local profileFrame = Instance.new("Frame")
+profileFrame.Size = UDim2.new(0, 200, 0, 50)
+profileFrame.Position = UDim2.new(0, 10, 0, 10)
+profileFrame.BackgroundTransparency = 1
+profileFrame.Parent = mainFrame
+
+-- User Avatar
+local userAvatar = Instance.new("ImageLabel")
+userAvatar.Size = UDim2.new(0, 50, 0, 50)
+userAvatar.BackgroundTransparency = 1
+userAvatar.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..localPlayer.UserId.."&width=420&height=420&format=png"
+userAvatar.Parent = profileFrame
+
+-- User Name
+local userName = Instance.new("TextLabel")
+userName.Size = UDim2.new(1, -60, 0, 50)
+userName.Position = UDim2.new(0, 60, 0, 0)
+userName.BackgroundTransparency = 1
+userName.Text = localPlayer.Name
+userName.Font = Enum.Font.SourceSans
+userName.TextSize = 18
+userName.TextColor3 = Color3.fromRGB(255, 255, 255)
+userName.Parent = profileFrame
+
+-- Welcome Text
+local welcomeText = Instance.new("TextLabel")
+welcomeText.Size = UDim2.new(1, 0, 0, 20)
+welcomeText.Position = UDim2.new(0, 0, 1, 0)
+welcomeText.BackgroundTransparency = 1
+welcomeText.Text = "Welcome !!!"
+welcomeText.Font = Enum.Font.SourceSans
+welcomeText.TextSize = 14
+welcomeText.TextColor3 = Color3.fromRGB(255, 255, 255)
+welcomeText.Parent = profileFrame
+
+-- Example buttons in the main frame
+local autoFarmButton = Instance.new("TextButton")
+autoFarmButton.Size = UDim2.new(0, 200, 0, 50)
+autoFarmButton.Position = UDim2.new(0.5, -100, 0.5, -25)
+autoFarmButton.BackgroundColor3 = Color3.fromRGB(0, 0, 30)
+autoFarmButton.Text = "Start Auto-Farm"
+autoFarmButton.Font = Enum.Font.SourceSans
+autoFarmButton.TextSize = 18
+autoFarmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+autoFarmButton.Parent = mainFrame
+
+-- Functionality for the buttons
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+minimizeButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+end)
+
+maximizeButton.MouseButton1Click:Connect(function()
+    if mainFrame.Size == UDim2.new(0, 400, 0, 600) then
+        mainFrame.Size = UDim2.new(0, 800, 0, 600)
+    else
+        mainFrame.Size = UDim2.new(0, 400, 0, 600)
+    end
+end)
+
+-- Auto-Farm Functionality
+local function createPart()
+    local part = Instance.new("Part")
+    part.Size = Vector3.new(4, 1, 2)
+    part.Anchored = true
+    part.Parent = workspace
+    return part
+end
+
+local function teleportToPart(part)
+    local tween = TweenService:Create(localPlayer.Character.HumanoidRootPart, TweenInfo.new(1), {CFrame = part.CFrame})
+    tween:Play()
+    tween.Completed:Wait()
+end
+
+local function autoFarm()
+    while true do
+        -- Check for enemies or resources to farm
+        local enemies = workspace:FindFirstChild("Enemies")
+        if enemies then
+            for _, enemy in ipairs(enemies:GetChildren()) do
+                if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health > 0 then
+                    teleportToPart(enemy)
+                    localPlayer.Character.Humanoid:MoveTo(enemy.Position)
+                    -- Attack logic here
+                end
+            end
+        end
+        wait(5)  -- Delay between farming cycles
+    end
+end
+
+autoFarmButton.MouseButton1Click:Connect(function()
+    autoFarm()
+end)
